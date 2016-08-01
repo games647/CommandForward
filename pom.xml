@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.games647</groupId>
+    <!--This have to be in lowercase because it's used by plugin.yml-->
+    <artifactId>commandforward</artifactId>
+    <packaging>pom</packaging>
+
+    <name>CommandForward</name>
+    <version>0.1</version>
+    <inceptionYear>2016</inceptionYear>
+    <url>https://www.spigotmc.org/resources/</url>
+    <description>
+        Forwards commands from bukkit to bungeecord to execute it there
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--Possibility to deploy directly to the plugins folder-->
+        <outputDir>${basedir}/target</outputDir>
+    </properties>
+
+    <modules>
+        <module>bukkit</module>
+        <module>bungee</module>
+        <module>universal</module>
+    </modules>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/games647/CommandForward/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/games647/CommandForward</url>
+        <connection>scm:git:git://github.com/games647/CommandForward.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:games647/CommandForward.git</developerConnection>
+    </scm>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <!--Just use the project name to replace an old version of the plugin if the user does only copy-paste-->
+        <finalName>${project.name}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <outputDirectory>${outputDir}</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--Replace variables-->
+                <filtering>true</filtering>
+            </resource>
+
+            <!--Add the license to jar in order to see it in the final jar-->
+            <resource>
+                <!--Parent folder-->
+                <directory>${basedir}/..</directory>
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

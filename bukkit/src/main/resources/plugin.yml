@@ -1,0 +1,17 @@
+# project informations for Bukkit in order to register our plugin with all it components
+# ${-} are variables from Maven (pom.xml) which will be replaced after the build
+name: ${project.parent.name}
+version: ${project.version}
+main: ${project.groupId}.${project.artifactId}.${project.name}
+
+# meta informations for plugin managers
+authors: [games647, 'https://github.com/games647/CommandForward/graphs/contributors']
+description: |
+    ${project.description}
+website: ${project.url}
+dev-url: ${project.url}
+
+commands:
+    forward:
+        description: 'Forward a command to the bungee proxy'
+        usage: /<command> <proxyCommand> [arg]

@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.github.games647</groupId>
+        <artifactId>commandforward</artifactId>
+        <version>0.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <!--This have to be in lowercase because it's used by plugin.yml-->
+    <artifactId>commandforward.bungee</artifactId>
+    <packaging>jar</packaging>
+
+    <!--Represents the main plugin-->
+    <name>CommandForwardBungee</name>
+
+    <repositories>
+        <!--BungeeCord with also the part outside the API-->
+        <repository>
+            <id>myplayplanet-REPO</id>
+            <url>http://maven.myplayplanet.net/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.8-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
