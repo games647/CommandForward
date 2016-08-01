@@ -3,8 +3,8 @@ package com.github.games647.commandforward.bungee;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import java.util.concurrent.ConcurrentMap;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 import net.md_5.bungee.api.CommandSender;

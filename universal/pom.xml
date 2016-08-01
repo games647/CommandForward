@@ -47,13 +47,13 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fastlogin.bukkit</artifactId>
+            <artifactId>commandforward.bukkit</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fastlogin.bungee</artifactId>
+            <artifactId>commandforward.bungee</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
