@@ -34,6 +34,7 @@ public class CommandForwardBukkit extends JavaPlugin {
                 dataOutput.writeBoolean(sender instanceof Player);
                 dataOutput.writeUTF(args[0]);
                 dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length)));
+                messageSender.sendPluginMessage(this, getName(), dataOutput.toByteArray());
             }
         }
 
