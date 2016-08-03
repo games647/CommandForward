@@ -26,20 +26,20 @@ public class CommandForwardBukkit extends JavaPlugin {
         if (args.length == 0 || args.length == 1) {
             sender.sendMessage(ChatColor.DARK_RED + "Command is missing");
         } else {
-            String targetInvoker = args[0];
+            String channelPlayer = args[0];
 
             Player messageSender = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 
             ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
-            if (targetInvoker.equalsIgnoreCase("Console")) {
+            if (channelPlayer.equalsIgnoreCase("Console")) {
                 dataOutput.writeBoolean(true);
             } else {
-                dataOutput.writeBoolean(false);
-                messageSender = getServer().getPlayer(targetInvoker);
+                dataOutput.writeBoolean(!(sender instanceof Player));
+                messageSender = getServer().getPlayer(channelPlayer);
             }
 
             if (messageSender == null) {
-                sender.sendMessage(ChatColor.DARK_RED + "No player online for fowarding this command");
+                sender.sendMessage(ChatColor.DARK_RED + "Player not online for fowarding this command");
             } else {
                 dataOutput.writeUTF(args[1]);
                 dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
