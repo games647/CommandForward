@@ -32,9 +32,9 @@ public class CommandForwardBukkit extends JavaPlugin {
 
             ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
             if (channelPlayer.equalsIgnoreCase("Console")) {
-                dataOutput.writeBoolean(true);
+                dataOutput.writeBoolean(false);
             } else {
-                dataOutput.writeBoolean(!(sender instanceof Player));
+                dataOutput.writeBoolean(sender instanceof Player);
                 messageSender = getServer().getPlayer(channelPlayer);
             }
 
