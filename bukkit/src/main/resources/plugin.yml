@@ -15,3 +15,4 @@ commands:
     forward:
         description: 'Forward a command to the bungee proxy'
         usage: /<command> <proxyCommand> [arg]
+        permission: ${project.artifactId}.command.forward
