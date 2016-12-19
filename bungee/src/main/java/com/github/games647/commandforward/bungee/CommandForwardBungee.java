@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +35,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
     @EventHandler
     public void onServerConnected(PluginMessageEvent messageEvent) {
         String channel = messageEvent.getTag();
-        if (messageEvent.isCancelled() || !getDescription().getName().equals(channel)) {
+        if (messageEvent.isCancelled() || !Objects.equals(getDescription().getName(), channel)) {
             return;
         }
 
