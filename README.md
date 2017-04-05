@@ -17,7 +17,7 @@ If you like the project, leave a star on Github and contribute there.
 * RedisBungee support (executes command only on the proxy of that player)
 * Forwarding as Player or Console
 
-##Warning
+## Warning
 * This plugin cannot forward commands to a bungeecord server if no player is online
 
 ## How to use
