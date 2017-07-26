@@ -1,29 +1,26 @@
 package com.github.games647.commandforward.bungee;
 
-import com.google.common.cache.CacheBuilder;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
+import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
 
 public class CommandForwardBungee extends Plugin implements Listener {
-
-    private static final boolean REMOVE_DUPLICATES = false;
-
-    private final ConcurrentMap<String, Object> prevCommands = CacheBuilder.newBuilder()
-            .expireAfterWrite(10, TimeUnit.SECONDS)
-            .<String, Object>build().asMap();
-
 
     @Override
     public void onEnable() {
@@ -43,26 +40,49 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
         //check if the message is sent from the server
         if (Server.class.isAssignableFrom(messageEvent.getSender().getClass())) {
-            ByteArrayDataInput dataInput = ByteStreams.newDataInput(messageEvent.getData());
-            boolean isPlayer = dataInput.readBoolean();
-            String command = dataInput.readUTF();
-            String arguments = dataInput.readUTF();
+            parseMessage((ProxiedPlayer) messageEvent.getReceiver(), ByteStreams.newDataInput(messageEvent.getData()));
+        }
+    }
 
-            ProxiedPlayer invoker = (ProxiedPlayer) messageEvent.getReceiver();
+    private void parseMessage(ProxiedPlayer sender, ByteArrayDataInput dataInput) {
+        boolean isPlayer = dataInput.readBoolean();
+        String command = dataInput.readUTF();
+        String arguments = dataInput.readUTF();
+
+        CommandSender invoker = getProxy().getConsole();
+        if (isPlayer) {
+            invoker = sender;
+        }
+
+        invokeCommand(invoker, dataInput.readBoolean(), command, arguments);
+    }
+
+    private void invokeCommand(CommandSender invoker, boolean isOp, String command, String arguments) {
+        PluginManager pluginManager = getProxy().getPluginManager();
+        if (isOp) {
+            try {
+                Map<String, Command> commandMap = (Map<String, Command>) pluginManager.getClass()
+                        .getField("commandMap").get(pluginManager);
+
+                Command pluginCmd = commandMap.get(command);
+                if (pluginCmd == null) {
+                    invoker.sendMessage(new ComponentBuilder("Command not known")
+                            .color(ChatColor.RED)
+                            .create());
+                } else {
+                    pluginCmd.execute(invoker, arguments.split(" "));
+                }
+            } catch (NoSuchFieldException | IllegalAccessException ex) {
+                String exMess = ex.getMessage();
+                BaseComponent[] message = new ComponentBuilder("Error occurred executing command " + exMess)
+                        .color(ChatColor.RED)
+                        .create();
+                invoker.sendMessage(message);
+                getLogger().log(Level.WARNING, "Cannot access command map for executing command", ex);
+            }
+        } else {
             String commandLine = command + ' ' + arguments;
-            if (REMOVE_DUPLICATES && prevCommands.containsKey(commandLine)) {
-                return;
-            }
-
-            prevCommands.put(commandLine, new Object());
-
-            if (isPlayer) {
-                //the proxied player is the actual invoker other it's the console
-                getProxy().getPluginManager().dispatchCommand(invoker, commandLine);
-            } else {
-                CommandSender console = getProxy().getConsole();
-                getProxy().getPluginManager().dispatchCommand(console, commandLine);
-            }
+            pluginManager.dispatchCommand(invoker, commandLine);
         }
     }
 }

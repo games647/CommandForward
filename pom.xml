@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <name>CommandForward</name>
-    <version>0.2</version>
+    <version>0.3</version>
     <inceptionYear>2016</inceptionYear>
     <url>https://www.spigotmc.org/resources/</url>
     <description>
@@ -17,8 +17,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--Possibility to deploy directly to the plugins folder-->
-        <outputDir>${basedir}/target</outputDir>
     </properties>
 
     <modules>
@@ -26,17 +24,6 @@
         <module>bungee</module>
         <module>universal</module>
     </modules>
-
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/games647/CommandForward/issues</url>
-    </issueManagement>
-
-    <scm>
-        <url>https://github.com/games647/CommandForward</url>
-        <connection>scm:git:git://github.com/games647/CommandForward.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:games647/CommandForward.git</developerConnection>
-    </scm>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -47,21 +34,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <outputDirectory>${outputDir}</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -71,15 +47,6 @@
                 <directory>src/main/resources</directory>
                 <!--Replace variables-->
                 <filtering>true</filtering>
-            </resource>
-
-            <!--Add the license to jar in order to see it in the final jar-->
-            <resource>
-                <!--Parent folder-->
-                <directory>${basedir}/..</directory>
-                <includes>
-                    <include>LICENSE</include>
-                </includes>
             </resource>
         </resources>
     </build>

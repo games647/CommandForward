@@ -39,10 +39,11 @@ public class CommandForwardBukkit extends JavaPlugin {
             }
 
             if (messageSender == null) {
-                sender.sendMessage(ChatColor.DARK_RED + "Player not online for fowarding this command");
+                sender.sendMessage(ChatColor.DARK_RED + "Player not online for forwarding this command");
             } else {
                 dataOutput.writeUTF(args[1]);
                 dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
+                dataOutput.writeBoolean(sender.isOp());
                 messageSender.sendPluginMessage(this, getName(), dataOutput.toByteArray());
             }
         }
