@@ -2,14 +2,14 @@
 
 ## Description
 
-This lightweight plugin to forward commands from the bukkit-side to a bungeecord server. It uses plugin-channels to
+This lightweight plugin to forward commands from the Bukkit-side to a Bungeecord server. It uses plugin-channels to
 communicate between the server instances. This part of a server->proxy->player connection and requires at least one
 player to be online. Therefore we don't need to open a port and establish a new connection between the servers.
 Furthermore on a RedisBungee environment it forwards the command only to currently used proxy by that specified player.
 
 I'm open for suggestions.
 
-If you like the project, leave a star on Github and contribute there.
+If you like the project, leave a star on GitHub and contribute there.
 
 ## Features
 * Lightweight
@@ -18,22 +18,22 @@ If you like the project, leave a star on Github and contribute there.
 * Forwarding as Player or Console
 
 ## Warning
-* This plugin cannot forward commands to a bungeecord server if no player is online
+* This plugin cannot forward commands to a Bungeecord server if no player is online
 
 ## How to use
 
 ### Setup
 
-* Drop the plugin in the bungee and bukkit server
+* Drop the plugin in the Bungee and Bukkit server
 * Finished setup
 
 ### Using it
 
-#### Execute this command on the bukkit side
+#### Execute this command on the Bukkit side
 `/forward bridgePlayer cmd [args...]`
 
 bridgePlayer is the player which connection should be used.
-This is relevant for receiving the output or selecting the correct proxy in a redisbungee environment
+This is relevant for receiving the output or selecting the correct proxy in a RedisBungee environment
 
 cmd is the start of the actual command
 [] means it's optional
@@ -44,6 +44,6 @@ cmd is the start of the actual command
 ##### Example Execute as Console:
 `/forward console ping`
 
-This will select a random player to forward the connection to the bungee server, but it will be executed as bungee
+This will select a random player to forward the connection to the Bungee server, but it will be executed as Bungee
 console there.
 

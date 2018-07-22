@@ -11,7 +11,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Command;
@@ -40,11 +39,11 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
         //check if the message is sent from the server
         if (Server.class.isAssignableFrom(messageEvent.getSender().getClass())) {
-            parseMessage((ProxiedPlayer) messageEvent.getReceiver(), ByteStreams.newDataInput(messageEvent.getData()));
+            parseMessage((CommandSender) messageEvent.getReceiver(), ByteStreams.newDataInput(messageEvent.getData()));
         }
     }
 
-    private void parseMessage(ProxiedPlayer sender, ByteArrayDataInput dataInput) {
+    private void parseMessage(CommandSender sender, ByteArrayDataInput dataInput) {
         boolean isPlayer = dataInput.readBoolean();
         String command = dataInput.readUTF();
         String arguments = dataInput.readUTF();

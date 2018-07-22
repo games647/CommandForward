@@ -1,11 +1,11 @@
 package com.github.games647.commandforward.bukkit;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,24 +28,26 @@ public class CommandForwardBukkit extends JavaPlugin {
         } else {
             String channelPlayer = args[0];
 
-            Player messageSender = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+            Optional<? extends Player> optPlayer = Bukkit.getOnlinePlayers().stream().findAny();
+            if (!optPlayer.isPresent()) {
+                sender.sendMessage(ChatColor.DARK_RED + "Player not online for forwarding this command");
+                return false;
+            }
+
+            Player messageSender = optPlayer.get();
 
             ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
-            if (channelPlayer.equalsIgnoreCase("Console")) {
+            if ("Console".equalsIgnoreCase(channelPlayer)) {
                 dataOutput.writeBoolean(false);
             } else {
                 dataOutput.writeBoolean(sender instanceof Player);
                 messageSender = getServer().getPlayer(channelPlayer);
             }
 
-            if (messageSender == null) {
-                sender.sendMessage(ChatColor.DARK_RED + "Player not online for forwarding this command");
-            } else {
-                dataOutput.writeUTF(args[1]);
-                dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
-                dataOutput.writeBoolean(sender.isOp());
-                messageSender.sendPluginMessage(this, getName(), dataOutput.toByteArray());
-            }
+            dataOutput.writeUTF(args[1]);
+            dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
+            dataOutput.writeBoolean(sender.isOp());
+            messageSender.sendPluginMessage(this, getName(), dataOutput.toByteArray());
         }
 
         return true;
