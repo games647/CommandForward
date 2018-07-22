@@ -16,9 +16,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandForwardBukkit extends JavaPlugin {
 
+    private static final String MESSAGE_CHANNEL = "CommandForward:Command";
+
     @Override
     public void onEnable() {
-        getServer().getMessenger().registerOutgoingPluginChannel(this, getName());
+        getServer().getMessenger().registerOutgoingPluginChannel(this, MESSAGE_CHANNEL);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class CommandForwardBukkit extends JavaPlugin {
             dataOutput.writeUTF(args[1]);
             dataOutput.writeUTF(Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
             dataOutput.writeBoolean(sender.isOp());
-            messageSender.sendPluginMessage(this, getName(), dataOutput.toByteArray());
+            messageSender.sendPluginMessage(this, MESSAGE_CHANNEL, dataOutput.toByteArray());
         }
 
         return true;
