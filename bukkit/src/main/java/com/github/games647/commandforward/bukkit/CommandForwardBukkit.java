@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandForwardBukkit extends JavaPlugin {
 
-    private static final String MESSAGE_CHANNEL = "CommandForward:Command";
+    private static final String MESSAGE_CHANNEL = "CommandForward:Cmd";
 
     @Override
     public void onEnable() {
