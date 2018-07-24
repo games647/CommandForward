@@ -21,7 +21,7 @@ import net.md_5.bungee.event.EventHandler;
 
 public class CommandForwardBungee extends Plugin implements Listener {
 
-    private static final String MESSAGE_CHANNEL = "CommandForward:Cmd";
+    private static final String MESSAGE_CHANNEL = "commandforward:cmd";
 
     @Override
     public void onEnable() {
