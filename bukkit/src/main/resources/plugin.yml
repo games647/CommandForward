@@ -11,6 +11,9 @@ description: |
 website: ${project.url}
 dev-url: ${project.url}
 
+# This plugin don't have to be transformed for compatibility with Minecraft >= 1.13
+api-version: 1.13
+
 commands:
     forward:
         description: 'Forward a command to the bungee proxy'
