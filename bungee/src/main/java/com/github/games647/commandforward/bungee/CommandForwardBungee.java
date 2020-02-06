@@ -62,6 +62,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
         PluginManager pluginManager = getProxy().getPluginManager();
         if (isOp) {
             try {
+                // TODO: Fix using the command map! https://github.com/games647/CommandForward/issues/3
                 Map<String, Command> commandMap = (Map<String, Command>) pluginManager.getClass()
                         .getField("commandMap").get(pluginManager);
 
