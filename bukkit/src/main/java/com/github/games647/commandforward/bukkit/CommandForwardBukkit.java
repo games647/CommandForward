@@ -26,13 +26,13 @@ public class CommandForwardBukkit extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || args.length == 1) {
-            sender.sendMessage(ChatColor.DARK_RED + "Command is missing");
+            sender.sendMessage(ChatColor.RED + "[CommandForward] Command is missing");
         } else {
             String channelPlayer = args[0];
 
             Optional<? extends Player> optPlayer = Bukkit.getOnlinePlayers().stream().findAny();
             if (!optPlayer.isPresent()) {
-                sender.sendMessage(ChatColor.DARK_RED + "Player not online for forwarding this command");
+                sender.sendMessage(ChatColor.RED + "[CommandForward] Player not online for forwarding this command");
                 return false;
             }
 
@@ -44,7 +44,7 @@ public class CommandForwardBukkit extends JavaPlugin {
             } else {
                 // How do I make messageSender equal Player or null on check? Probably not possible in Java?
                 if(getServer().getPlayer(channelPlayer) == null) {
-                  sender.sendMessage(ChatColor.DARK_RED + "Specified player not found");
+                  sender.sendMessage(ChatColor.RED + "[CommandForward] Specified player not found");
                   return true;
                 }
 

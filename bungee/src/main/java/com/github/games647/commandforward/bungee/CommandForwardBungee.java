@@ -68,7 +68,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
                 Command pluginCmd = commandMap.get(command);
                 if (pluginCmd == null) {
-                    invoker.sendMessage(new ComponentBuilder("Command not known")
+                    invoker.sendMessage(new ComponentBuilder("[CommandForward] Command not found")
                             .color(ChatColor.RED)
                             .create());
                 } else {
@@ -76,11 +76,11 @@ public class CommandForwardBungee extends Plugin implements Listener {
                 }
             } catch (NoSuchFieldException | IllegalAccessException ex) {
                 String exMess = ex.getMessage();
-                BaseComponent[] message = new ComponentBuilder("Error occurred executing command " + exMess)
+                BaseComponent[] message = new ComponentBuilder("[CommandForward]  Error occurred executing command '" + exMess + "'")
                         .color(ChatColor.RED)
                         .create();
                 invoker.sendMessage(message);
-                getLogger().log(Level.WARNING, "Cannot access command map for executing command", ex);
+                getLogger().log(Level.WARNING, "[CommandForward]  Cannot access command map for executing command", ex);
             }
         } else {
             String commandLine = command + ' ' + arguments;
