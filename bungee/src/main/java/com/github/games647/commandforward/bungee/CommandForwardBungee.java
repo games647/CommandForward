@@ -60,14 +60,16 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
     private void invokeCommand(CommandSender invoker, boolean isOp, String command, String arguments) {
         PluginManager pluginManager = getProxy().getPluginManager();
-        if (isOp) {
+        //if (isOp) { // TODO: Make OP Configurable and Fix command map!!!
+        if (false) {
             try {
+                // TODO: Fix using the command map! https://github.com/games647/CommandForward/issues/3
                 Map<String, Command> commandMap = (Map<String, Command>) pluginManager.getClass()
                         .getField("commandMap").get(pluginManager);
 
                 Command pluginCmd = commandMap.get(command);
                 if (pluginCmd == null) {
-                    invoker.sendMessage(new ComponentBuilder("Command not known")
+                    invoker.sendMessage(new ComponentBuilder("[CommandForward] Command '" + command + "' not found")
                             .color(ChatColor.RED)
                             .create());
                 } else {
@@ -75,15 +77,19 @@ public class CommandForwardBungee extends Plugin implements Listener {
                 }
             } catch (NoSuchFieldException | IllegalAccessException ex) {
                 String exMess = ex.getMessage();
-                BaseComponent[] message = new ComponentBuilder("Error occurred executing command " + exMess)
+                BaseComponent[] message = new ComponentBuilder("[CommandForward]  Error occurred executing command '" + exMess + "'")
                         .color(ChatColor.RED)
                         .create();
                 invoker.sendMessage(message);
-                getLogger().log(Level.WARNING, "Cannot access command map for executing command", ex);
+                getLogger().log(Level.WARNING, "[CommandForward]  Cannot access command map for executing command", ex);
             }
         } else {
             String commandLine = command + ' ' + arguments;
-            pluginManager.dispatchCommand(invoker, commandLine);
+            if(!pluginManager.dispatchCommand(invoker, commandLine)) {
+              invoker.sendMessage(new ComponentBuilder("[CommandForward] Command '" + command + "' not found")
+                      .color(ChatColor.RED)
+                      .create());
+            }
         }
     }
 }

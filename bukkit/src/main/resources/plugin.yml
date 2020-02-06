@@ -17,5 +17,5 @@ api-version: 1.13
 commands:
     forward:
         description: 'Forward a command to the bungee proxy'
-        usage: /<command> <proxyCommand> [arg]
+        usage: /<command> <player-ign or console> <command> [arg]
         permission: ${project.artifactId}.command.forward
