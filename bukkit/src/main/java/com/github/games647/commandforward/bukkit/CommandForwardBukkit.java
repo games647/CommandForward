@@ -44,7 +44,7 @@ public class CommandForwardBukkit extends JavaPlugin {
             } else {
                 // How do I make messageSender equal Player or null on check? Probably not possible in Java?
                 if(getServer().getPlayer(channelPlayer) == null) {
-                  sender.sendMessage(ChatColor.RED + "[CommandForward] Specified player not found");
+                  sender.sendMessage(ChatColor.RED + "[CommandForward] Player, " + channelPlayer + ", not found");
                   return true;
                 }
 
