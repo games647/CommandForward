@@ -40,12 +40,29 @@ public class CommandForwardBukkit extends JavaPlugin {
 
             ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
             if ("Console".equalsIgnoreCase(channelPlayer)) {
+                // TODO: Improve Me!!!
+                // TODO TODO TODO: Figure Out How To Check Permission of Command Sender
+                //if((sender instanceof Player) && (!sender.haspermission("commandforward.bukkit.command.forward.console"))) {
+                if(sender instanceof Player) {
+                  sender.sendMessage(ChatColor.RED + "[CommandForward] Sorry, you need permission, commandforward.bukkit.command.forward.console!");
+                  return true;
+                }
+
                 dataOutput.writeBoolean(false);
             } else {
                 // How do I make messageSender equal Player or null on check? Probably not possible in Java?
                 if(getServer().getPlayer(channelPlayer) == null) {
                   sender.sendMessage(ChatColor.RED + "[CommandForward] Player, " + channelPlayer + ", not found");
                   return true;
+                }
+
+                // TODO: Improve Me!!! Make It Possible To Specify A Single Whitelisted Perm To "Sudo" Per Perm (Perm Plugin Will Handle Fancy Stuff With Asterisks And All)
+                if((sender instanceof Player) && (!((Player) sender).getName().equalsIgnoreCase(channelPlayer))) {
+                  // TODO TODO TODO: Figure Out How To Check Permission of Command Sender
+                  //if(!sender.haspermission("commandforward.bukkit.command.forward.other")) {
+                    sender.sendMessage(ChatColor.RED + "[CommandForward] Sorry, you need permission, commandforward.bukkit.command.forward.other!");
+                    return true;
+                  //}
                 }
 
                 dataOutput.writeBoolean(sender instanceof Player);
