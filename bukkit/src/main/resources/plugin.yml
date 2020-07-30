@@ -17,5 +17,18 @@ api-version: 1.13
 commands:
     forward:
         description: 'Forward a command to the bungee proxy'
-        usage: /<command> <player-ign or console> <command> [arg]
+        usage: /<command> <player-name or 'console'> <bungee_command> [arg]
         permission: ${project.artifactId}.command.forward
+permissions:
+    ${project.artifactId}.command.forward.*:
+        description: 'Allow to use all features of forward command'
+        children:
+            ${project.artifactId}.command.forward: true
+            ${project.artifactId}.command.forward.console: true
+            ${project.artifactId}.command.forward.other: true
+    ${project.artifactId}.command.forward:
+        description: 'Allow to use base forward command'
+    ${project.artifactId}.command.forward.console:
+        description: 'Allow to use console in forward command'
+    ${project.artifactId}.command.forward.other:
+        description: 'Allow to use another player than ourself in forward command'
