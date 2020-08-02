@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CommandForwardBukkit extends JavaPlugin {
 
     private static final String MESSAGE_CHANNEL = "commandforward:cmd";
+    private final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
 
     @Override
     public void onEnable() {
@@ -78,7 +79,6 @@ public class CommandForwardBukkit extends JavaPlugin {
      * @param message Message to send to command sender
      */
     private void sendErrorMessage(CommandSender sender, String message) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&3[&6" + this.getName() + "&3]&c " + message));
+        sender.sendMessage(this.PLUGIN_NAME_PREFIX + ChatColor.RED + message);
     }
 }

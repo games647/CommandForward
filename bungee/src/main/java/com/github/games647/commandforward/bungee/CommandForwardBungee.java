@@ -58,7 +58,8 @@ public class CommandForwardBungee extends Plugin implements Listener {
         if (isOp) {
             pluginManager.getCommands()
                 .stream()
-                .filter(entry -> entry.getKey().equals(command.toLowerCase())).findFirst()
+                .filter(entry -> entry.getKey().equals(command.toLowerCase()))
+                .findFirst()
                 .map(Map.Entry::getValue)
                 .map(pluginCmd -> {
                     pluginCmd.execute(invoker, arguments.split(" "));
