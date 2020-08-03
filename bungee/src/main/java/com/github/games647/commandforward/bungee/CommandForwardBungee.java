@@ -5,15 +5,12 @@ import com.google.common.io.ByteStreams;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
-import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -41,49 +38,50 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
         //check if the message is sent from the server
         if (Server.class.isAssignableFrom(messageEvent.getSender().getClass())) {
-            parseMessage((CommandSender) messageEvent.getReceiver(), ByteStreams.newDataInput(messageEvent.getData()));
+            parseMessage((CommandSender) messageEvent.getReceiver(),
+                ByteStreams.newDataInput(messageEvent.getData()));
         }
     }
 
     private void parseMessage(CommandSender sender, ByteArrayDataInput dataInput) {
-        boolean isPlayer = dataInput.readBoolean();
-        String command = dataInput.readUTF();
-        String arguments = dataInput.readUTF();
-
-        CommandSender invoker = getProxy().getConsole();
-        if (isPlayer) {
-            invoker = sender;
-        }
+        final boolean isPlayer = dataInput.readBoolean();
+        final String command = dataInput.readUTF();
+        final String arguments = dataInput.readUTF();
+        final CommandSender invoker = (isPlayer) ? sender : getProxy().getConsole();
 
         invokeCommand(invoker, dataInput.readBoolean(), command, arguments);
     }
 
     private void invokeCommand(CommandSender invoker, boolean isOp, String command, String arguments) {
         PluginManager pluginManager = getProxy().getPluginManager();
-        if (isOp) {
-            try {
-                Map<String, Command> commandMap = (Map<String, Command>) pluginManager.getClass()
-                        .getField("commandMap").get(pluginManager);
 
-                Command pluginCmd = commandMap.get(command);
-                if (pluginCmd == null) {
-                    invoker.sendMessage(new ComponentBuilder("Command not known")
-                            .color(ChatColor.RED)
-                            .create());
-                } else {
+        if (isOp) {
+            pluginManager.getCommands()
+                .stream()
+                .filter(entry -> entry.getKey().equals(command.toLowerCase()))
+                .findFirst()
+                .map(Map.Entry::getValue)
+                .map(pluginCmd -> {
                     pluginCmd.execute(invoker, arguments.split(" "));
-                }
-            } catch (NoSuchFieldException | IllegalAccessException ex) {
-                String exMess = ex.getMessage();
-                BaseComponent[] message = new ComponentBuilder("Error occurred executing command " + exMess)
-                        .color(ChatColor.RED)
-                        .create();
-                invoker.sendMessage(message);
-                getLogger().log(Level.WARNING, "Cannot access command map for executing command", ex);
-            }
+                    return pluginCmd;
+                }).orElseGet(() -> {
+                    sendErrorMessage(invoker, "Unknown command : " + command);
+                    return null;
+                });
         } else {
-            String commandLine = command + ' ' + arguments;
-            pluginManager.dispatchCommand(invoker, commandLine);
+            pluginManager.dispatchCommand(invoker, command + " " + arguments);
         }
+    }
+
+    /**
+     * Print an error message
+     *
+     * @param sender  Sender that execute the current command
+     * @param message Message to send to command sender
+     */
+    private void sendErrorMessage(CommandSender sender, String message) {
+        sender.sendMessage(
+            new ComponentBuilder(String.format("[%s] %s", this.getDescription().getName(), message))
+                .color(ChatColor.RED).append(message).create());
     }
 }
