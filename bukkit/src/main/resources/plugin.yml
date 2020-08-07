@@ -4,7 +4,7 @@ name: ${project.parent.name}
 version: ${project.version}
 main: ${project.groupId}.${project.artifactId}.${project.name}
 
-# meta informations for plugin managers
+# meta data for plugin managers
 authors: [games647, 'https://github.com/games647/CommandForward/graphs/contributors']
 description: |
     ${project.description}
@@ -12,7 +12,7 @@ website: ${project.url}
 dev-url: ${project.url}
 
 # This plugin don't have to be transformed for compatibility with Minecraft >= 1.13
-api-version: 1.13
+api-version: '1.13'
 
 commands:
     forward:

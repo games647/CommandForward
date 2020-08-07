@@ -27,6 +27,13 @@ If you like the project, leave a star on GitHub and contribute there.
 * Drop the plugin in the Bungee and Bukkit server
 * Finished setup
 
+## Permissions
+
+commandforward.bukkit.command.forward.* - Allow to use all features of forward command
+commandforward.bukkit.command.forward - Allow to use base forward command
+commandforward.bukkit.command.forward.console - Allow to use console in forward command
+commandforward.bukkit.command.forward.other - Allow to use another player than ourself in forward command
+
 ### Using it
 
 #### Execute this command on the Bukkit side
