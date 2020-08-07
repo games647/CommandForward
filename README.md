@@ -4,8 +4,8 @@
 
 This lightweight plugin to forward commands from the Bukkit-side to a Bungeecord server. It uses plugin-channels to
 communicate between the server instances. This part of a server->proxy->player connection and requires at least one
-player to be online. Therefore we don't need to open a port and establish a new connection between the servers.
-Furthermore on a RedisBungee environment it forwards the command only to currently used proxy by that specified player.
+player to be online. Therefore, we don't need to open a port and establish a new connection between the servers.
+Furthermore, on a RedisBungee environment it forwards the command only to currently used proxy by that specified player.
 
 I'm open for suggestions.
 
@@ -33,10 +33,9 @@ If you like the project, leave a star on GitHub and contribute there.
 `/forward bridgePlayer cmd [args...]`
 
 bridgePlayer is the player which connection should be used.
-This is relevant for receiving the output or selecting the correct proxy in a RedisBungee environment
+This is relevant for receiving the output or selecting the correct proxy in a RedisBungee environment.
 
-cmd is the start of the actual command
-[] means it's optional
+cmd is the start of the actual command `[]` means it's optional
 
 ##### Example Execute as Player:
 `/forward playerName ping`
