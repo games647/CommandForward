@@ -34,6 +34,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
             return;
         }
 
+        // do not forward it further to the client
         messageEvent.setCancelled(true);
 
         //check if the message is sent from the server
