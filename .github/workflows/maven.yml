@@ -33,6 +33,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
+        distribution: 'adopt'
         # Use Java 8, because it's minimum required version
         java-version: 8
     # Build and test (included in package)
