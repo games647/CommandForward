@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "16:00"
+    timezone: Etc/Universal
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: net.md-5:bungeecord-api
+    versions:
+    - "> 1.16-R0.2"
