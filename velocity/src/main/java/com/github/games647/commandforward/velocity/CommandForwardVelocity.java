@@ -1,6 +1,5 @@
 package com.github.games647.commandforward.velocity;
 
-import com.github.games647.commandforward.velocity.MessageListener;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
@@ -20,7 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ *
+ * Velocity support for CommandForward plugin
+ * Since Velocity supports BungeeCord plugin-
+ * messaging channels now
+ *
+ * @author  Alijk
+ * @since   2022-02-13
+ *
+ */
 @Plugin(
     id = "commandforward",
     name = "CommandForward",

@@ -35,7 +35,6 @@ public class MessageListener {
         }
     }
 
-
     private void parseMessage(CommandSource source, ByteArrayDataInput dataInput) {
         final boolean isPlayer = dataInput.readBoolean();
         final String command = dataInput.readUTF();
@@ -49,7 +48,8 @@ public class MessageListener {
         PluginManager pluginManager = CommandForwardVelocity.getInstance().getProxyServer().getPluginManager();
         CommandManager commandManager = CommandForwardVelocity.getInstance().getProxyServer().getCommandManager();
 
-        // TODO complete isOp progression
+        // TODO implement isOp handle progress
+
         commandManager.executeAsync(invoker, command + " " + arguments);
     }
 
