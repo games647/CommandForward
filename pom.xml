@@ -12,7 +12,7 @@
 
     <url>https://www.spigotmc.org/resources/</url>
     <description>
-        Forwards commands from Bukkit to BungeeCord to execute it there
+        Forwards commands from Bukkit to BungeeCord (Or Velocity) to execute it there
     </description>
 
     <properties>
@@ -25,6 +25,7 @@
     <modules>
         <module>bukkit</module>
         <module>bungee</module>
+        <module>velocity</module>
         <module>universal</module>
     </modules>
 
