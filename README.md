@@ -44,6 +44,12 @@ This is relevant for receiving the output or selecting the correct proxy in a Re
 
 cmd is the start of the actual command `[]` means it's optional
 
+##### Example Execute as Self:
+`/intercept ping`
+
+This will select the command invoker for forwarding the data or random player if the invoker
+is the console.
+
 ##### Example Execute as Player:
 `/forward playerName ping`
 

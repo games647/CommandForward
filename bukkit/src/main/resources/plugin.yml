@@ -19,6 +19,10 @@ commands:
         description: 'Forward a command to the bungee proxy'
         usage: /<command> <player-name or 'console'> <bungee_command> [arg]
         permission: ${project.artifactId}.command.forward
+    intercept:
+        description: 'Forward a command using the command invoker channel for message delivery'
+        usage: /<command> <bungee_command> [arg]
+        permission: ${project.artifactId}.command.intercept
 permissions:
     ${project.artifactId}.command.forward.*:
         description: 'Allow to use all features of forward command'
