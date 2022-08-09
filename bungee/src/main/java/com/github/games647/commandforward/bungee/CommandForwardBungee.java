@@ -70,7 +70,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
                     return null;
                 });
         } else {
-            pluginManager.dispatchCommand(invoker, command + " " + arguments);
+            pluginManager.dispatchCommand(invoker, command + ' ' + arguments);
         }
     }
 

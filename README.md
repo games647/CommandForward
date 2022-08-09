@@ -32,7 +32,7 @@ If you like the project, leave a star on GitHub and contribute there.
 commandforward.bukkit.command.forward.* - Allow to use all features of forward command
 commandforward.bukkit.command.forward - Allow to use base forward command
 commandforward.bukkit.command.forward.console - Allow to use console in forward command
-commandforward.bukkit.command.forward.other - Allow to use another player than ourself in forward command
+commandforward.bukkit.command.forward.other - Allow to use another player than themselves in forward command
 
 ### Using it
 
@@ -52,4 +52,3 @@ cmd is the start of the actual command `[]` means it's optional
 
 This will select a random player to forward the connection to the Bungee server, but it will be executed as Bungee
 console there.
-

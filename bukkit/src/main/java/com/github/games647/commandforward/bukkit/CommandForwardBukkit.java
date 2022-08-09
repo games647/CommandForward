@@ -17,7 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CommandForwardBukkit extends JavaPlugin {
 
     private static final String MESSAGE_CHANNEL = "commandforward:cmd";
-    private final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
+    private final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "["
+            + ChatColor.GOLD + this.getName()
+            + ChatColor.DARK_AQUA + "] ";
 
     @Override
     public void onEnable() {
@@ -50,12 +52,13 @@ public class CommandForwardBukkit extends JavaPlugin {
 
             dataOutput.writeBoolean(false);
         } else {
-            if(sender instanceof Player && !sender.getName().equalsIgnoreCase(channelPlayer) && !Permissions.FORWARD_OTHER.isSetOn(sender)) {
+            if (sender instanceof Player && !sender.getName().equalsIgnoreCase(channelPlayer)
+                    && !Permissions.FORWARD_OTHER.isSetOn(sender)) {
                 sendErrorMessage(sender, Permissions.ERROR_MESSAGE);
                 return true;
             }
-            
-            if(getServer().getPlayer(channelPlayer) == null) {
+
+            if (getServer().getPlayer(channelPlayer) == null) {
                 sendErrorMessage(sender, "Player '" + channelPlayer + "' not found");
                 return true;
             }
