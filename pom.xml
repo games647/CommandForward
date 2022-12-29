@@ -10,7 +10,7 @@
     <name>CommandForward</name>
     <version>0.5.0</version>
 
-    <url>https://www.spigotmc.org/resources/</url>
+    <url>https://dev.bukkit.org/projects/commandforward</url>
     <description>
         Forwards commands from Bukkit to BungeeCord (Or Velocity) to execute it there
     </description>
