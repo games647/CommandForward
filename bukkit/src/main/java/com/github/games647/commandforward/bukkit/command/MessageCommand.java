@@ -1,16 +1,14 @@
 package com.github.games647.commandforward.bukkit.command;
 
 import com.github.games647.commandforward.bukkit.CommandForwardBukkit;
-import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-
-import java.util.Arrays;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
+
+import java.util.Arrays;
 
 public abstract class MessageCommand implements CommandExecutor {
 
@@ -41,7 +39,7 @@ public abstract class MessageCommand implements CommandExecutor {
         dataOutput.writeBoolean(isPlayer);
 
         dataOutput.writeUTF(command);
-        dataOutput.writeUTF(Joiner.on(' ').join(args));
+        dataOutput.writeUTF(String.join(" ", args));
         dataOutput.writeBoolean(isOp);
         sender.sendPluginMessage(plugin, channel, dataOutput.toByteArray());
     }
