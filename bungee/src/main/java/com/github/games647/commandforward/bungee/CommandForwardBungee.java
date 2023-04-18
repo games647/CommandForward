@@ -2,20 +2,21 @@ package com.github.games647.commandforward.bungee;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-
-import java.util.Map;
-import java.util.Objects;
-
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.connection.Server;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CommandForwardBungee extends Plugin implements Listener {
 
@@ -39,43 +40,45 @@ public class CommandForwardBungee extends Plugin implements Listener {
         messageEvent.setCancelled(true);
 
         //check if the message is sent from the server
-        if (Server.class.isAssignableFrom(messageEvent.getSender().getClass())) {
-            parseMessage(
-                    (CommandSender) messageEvent.getReceiver(),
+        if (ProxiedPlayer.class.isAssignableFrom(messageEvent.getReceiver().getClass())) {
+            executeMessage(
+                    (ProxiedPlayer) messageEvent.getReceiver(),
                     ByteStreams.newDataInput(messageEvent.getData())
             );
         }
     }
 
-    private void parseMessage(CommandSender sender, ByteArrayDataInput dataInput) {
+    private void executeMessage(ProxiedPlayer sender, ByteArrayDataInput dataInput) {
         boolean isPlayer = dataInput.readBoolean();
         String command = dataInput.readUTF();
         String arguments = dataInput.readUTF();
         CommandSender invoker = (isPlayer) ? sender : getProxy().getConsole();
         boolean isOp = dataInput.readBoolean();
 
-        invokeCommand(invoker, isOp, command, arguments);
+        Optional<Command> optCmd = getRegisteredCommand(command);
+        if (!optCmd.isPresent()) {
+            ChatEvent event = new ChatEvent(sender, null, '/' + command + ' ' + arguments);
+            getProxy().getPluginManager().callEvent(event);
+            if (!event.isCancelled()) {
+                sendErrorMessage(invoker, "Unknown command : " + command);
+            }
+        } else {
+            Command cmd = optCmd.get();
+            if (isOp) {
+                // skip additional permission checks - the permissions will be checked on Bukkit
+                cmd.execute(invoker, arguments.split(" "));
+            } else {
+                getProxy().getPluginManager().dispatchCommand(invoker, command + ' ' + arguments);
+            }
+        }
     }
 
-    private void invokeCommand(CommandSender invoker, boolean isOp, String command, String arguments) {
-        PluginManager pluginManager = getProxy().getPluginManager();
-
-        if (isOp) {
-            pluginManager.getCommands()
+    private Optional<Command> getRegisteredCommand(String command) {
+        return getProxy().getPluginManager().getCommands()
                 .stream()
                 .filter(entry -> entry.getKey().equals(command.toLowerCase()))
                 .findFirst()
-                .map(Map.Entry::getValue)
-                .map(pluginCmd -> {
-                    pluginCmd.execute(invoker, arguments.split(" "));
-                    return pluginCmd;
-                }).orElseGet(() -> {
-                    sendErrorMessage(invoker, "Unknown command : " + command);
-                    return null;
-                });
-        } else {
-            pluginManager.dispatchCommand(invoker, command + ' ' + arguments);
-        }
+                .map(Map.Entry::getValue);
     }
 
     /**
