@@ -50,20 +50,31 @@ public class CommandForwardBungee extends Plugin implements Listener {
 
     private void executeMessage(ProxiedPlayer sender, ByteArrayDataInput dataInput) {
         boolean isPlayer = dataInput.readBoolean();
-        String command = dataInput.readUTF();
+        String command = dataInput.readUTF().toLowerCase();
         String arguments = dataInput.readUTF();
         CommandSender invoker = (isPlayer) ? sender : getProxy().getConsole();
         boolean isOp = dataInput.readBoolean();
 
         Optional<Command> optCmd = getRegisteredCommand(command);
-        if (!optCmd.isPresent()) {
-            ChatEvent event = new ChatEvent(sender, null, '/' + command + ' ' + arguments);
-            getProxy().getPluginManager().callEvent(event);
-            if (!event.isCancelled()) {
-                sendErrorMessage(invoker, "Unknown command : " + command);
+        if (optCmd.isEmpty()) {
+            if (isPlayer) {
+                // execute only player commands if Bukkit requested to use this player as the receiver
+                ChatEvent event = new ChatEvent(sender, sender, '/' + command + ' ' + arguments);
+                getProxy().getPluginManager().callEvent(event);
+                if (!event.isCancelled()) {
+                    sendErrorMessage(invoker, "Unknown player command: " + command);
+                }
+            } else {
+                sendErrorMessage(invoker, "Unknown console command: " + command);
             }
         } else {
             Command cmd = optCmd.get();
+            boolean isDisabled = !getProxy().getPluginManager().isExecutableCommand(command, invoker);
+            if (isDisabled) {
+                sendErrorMessage(invoker, "Command is disabled");
+                return;
+            }
+
             if (isOp) {
                 // skip additional permission checks - the permissions will be checked on Bukkit
                 cmd.execute(invoker, arguments.split(" "));
@@ -76,7 +87,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
     private Optional<Command> getRegisteredCommand(String command) {
         return getProxy().getPluginManager().getCommands()
                 .stream()
-                .filter(entry -> entry.getKey().equals(command.toLowerCase()))
+                .filter(entry -> entry.getKey().equals(command))
                 .findFirst()
                 .map(Map.Entry::getValue);
     }
