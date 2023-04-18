@@ -56,7 +56,7 @@ public class CommandForwardBungee extends Plugin implements Listener {
         boolean isOp = dataInput.readBoolean();
 
         Optional<Command> optCmd = getRegisteredCommand(command);
-        if (optCmd.isEmpty()) {
+        if (!optCmd.isPresent()) {
             if (isPlayer) {
                 // execute only player commands if Bukkit requested to use this player as the receiver
                 ChatEvent event = new ChatEvent(sender, sender, '/' + command + ' ' + arguments);
