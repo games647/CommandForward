@@ -26,6 +26,11 @@ public class ForwardCommand extends MessageCommand {
 
         String channelPlayer = args[0];
 
+        // Check if the first argument is "@s" and replace it with the name of the command sender
+        if ("@s".equalsIgnoreCase(channelPlayer) && sender instanceof Player) {
+            channelPlayer = ((Player) sender).getName();
+        }
+
         if ("Console".equalsIgnoreCase(channelPlayer)) {
             if (!Permissions.FORWARD_CONSOLE.isSetOn(sender)) {
                 sendErrorMessage(sender, Permissions.ERROR_MESSAGE);
