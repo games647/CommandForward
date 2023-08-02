@@ -52,7 +52,9 @@ is the console.
 
 ##### Example Execute as Player:
 `/forward playerName ping`
-add：
+
+Add @s, '@s' represents the player who executed the command.
+
 `/forward @s ping`
 
 ##### Example Execute as Console:
