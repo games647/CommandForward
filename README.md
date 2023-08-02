@@ -52,6 +52,8 @@ is the console.
 
 ##### Example Execute as Player:
 `/forward playerName ping`
+add：
+`/forward @s ping`
 
 ##### Example Execute as Console:
 `/forward console ping`
