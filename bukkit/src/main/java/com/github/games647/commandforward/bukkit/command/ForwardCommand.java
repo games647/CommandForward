@@ -35,6 +35,15 @@ public class ForwardCommand extends MessageCommand {
             Bukkit.getOnlinePlayers().stream().findAny().ifPresent(messageSender -> {
                 sendForwardCommand(messageSender, false, args[1], dropFirstArgs(args, ARG_START), sender.isOp());
             });
+        }  else if ("*".equalsIgnoreCase(channelPlayer)) {
+            if (!Permissions.FORWARD_OTHER.isSetOn(sender)) {
+                sendErrorMessage(sender, Permissions.ERROR_MESSAGE);
+                return true;
+            }
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                sendForwardCommand(player, true, args[1], dropFirstArgs(args, ARG_START), sender.isOp());
+            }
         } else {
             if (sender instanceof Player && !sender.getName().equalsIgnoreCase(channelPlayer)
                     && !Permissions.FORWARD_OTHER.isSetOn(sender)) {
